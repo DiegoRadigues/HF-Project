@@ -18,10 +18,6 @@ Document de pilotage unique : état réel, gates par phase, DoD, orga GitHub/CI,
 - [ ] Build ESP32 + lint : [/ci/workflows/firmware_build.yml](ci/workflows/firmware_build.yml)
 - [ ] Tests Python/SCPI : [/ci/workflows/tests.yml](ci/workflows/tests.yml)
 
-### Cadence & réunions (notées)
-- [ ] Réunion “client–dev” (10 min début de séance) consignée dans `/logs/journal/`
-- [ ] Revue mi-phase (milestone) consignée dans `/logs/journal/`
-
 ---
 
 ## 1) Definition of Done (DoD) — critères mesurables
