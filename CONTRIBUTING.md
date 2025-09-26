@@ -1,24 +1,24 @@
 ﻿# CONTRIBUTING.md
 
-Merci de contribuer Ã  **HF-Project**   
-Ce document dÃ©crit **comment travailler proprement** sur le repo : branches, commits, PR, style, vÃ©rifications CI et rÃ¨gles spÃ©cifiques Hardware/Firmware/Docs.
+Merci de contribuer à **HF-Project**   
+Ce document décrit **comment travailler proprement** sur le repo : branches, commits, PR, style, vérifications CI et règles spécifiques Hardware/Firmware/Docs.
 
 ---
 
-## 1) PrÃ©-requis
-- **Git** rÃ©cent
+## 1) Pré-requis
+- **Git** récent
 - **ESP-IDF** (ou Arduino IDE) pour firmware ESP32
 - **Python 3.10+** (scripts outils)
 - **KiCad 7+** pour la CAO
-- AccÃ¨s aux Actions GitHub (CI)
+- Accès aux Actions GitHub (CI)
 
 ---
 
 ## 2) Flux Git (branches)
 
 - `main` : stable, **toujours** buildable.  
-- `dev` : intÃ©gration continue.  
-- `feature/<slug>` : une fonctionnalitÃ©/tÃ¢che (ex. `feature/lora-ping`).  
+- `dev` : intégration continue.  
+- `feature/<slug>` : une fonctionnalité/tâche (ex. `feature/lora-ping`).  
 - `fix/<slug>` : corrections (ex. `fix/usb-footprint`).  
 - `docs/<slug>` : documentation (ex. `docs/datasheet-v1`).
 
@@ -28,7 +28,7 @@ git checkout -b feature/lora-ping origin/dev
 git push -u origin feature/lora-ping
 ```
 
-> Les PR se font **vers `dev`** (sauf hotfix critique â†’ `main`).
+> Les PR se font **vers `dev`** (sauf hotfix critique → `main`).
 
 ---
 
@@ -37,7 +37,7 @@ git push -u origin feature/lora-ping
 Utiliser le format :
 
 ```
-<type>(scope): rÃ©sumÃ© court
+<type>(scope): résumé court
 ```
 
 **Types** usuels : `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `hw`, `fw`.  
@@ -46,7 +46,7 @@ Utiliser le format :
 - `hw(pcb): fix USB-C differential pair clearance`
 - `ci(kicad): add headless ERC/DRC workflow`
 
-> Un commit = une intention claire. Ajoute des **rÃ©fÃ©rences issues** : `Refs #12` / `Fixes #34`.
+> Un commit = une intention claire. Ajoute des **références issues** : `Refs #12` / `Fixes #34`.
 
 ---
 
@@ -58,57 +58,57 @@ Utiliser le format :
   - [ ] CI **verte** (build firmware, ERC/DRC si applicable)
   - [ ] Lint/format ok (code + Markdown)
   - [ ] Tests/Logs fournis si pertinent
-  - [ ] Docs mises Ã  jour (/project, /docs) si besoin
+  - [ ] Docs mises à jour (/project, /docs) si besoin
 
-- **Reviews** : au moins **1 reviewer** autre que lâ€™auteur.  
-- Squash & merge recommandÃ© (historique propre).
+- **Reviews** : au moins **1 reviewer** autre que l’auteur.  
+- Squash & merge recommandé (historique propre).
 
 ---
 
-## 5) RÃ¨gles Hardware (KiCad)
+## 5) Règles Hardware (KiCad)
 
 - Utiliser le dossier `/hardware/kicad/` (projet, libs, 3D).  
-- **RÃ¨gles JLCPCB 2 couches** appliquÃ©es (fichier de rÃ¨gles inclus).  
+- **Règles JLCPCB 2 couches** appliquées (fichier de règles inclus).  
 - **Avant PR** :
   - [ ] ERC = **0 erreur** bloquante
   - [ ] DRC = **0 erreur** bloquante
-  - [ ] Footprints connecteurs (SMA, USB-C) **revus Ã  2** (pair review)
-  - [ ] Export **Gerbers/BOM/PnP** â†’ `/hardware/fabrication/`
+  - [ ] Footprints connecteurs (SMA, USB-C) **revus à 2** (pair review)
+  - [ ] Export **Gerbers/BOM/PnP** → `/hardware/fabrication/`
 
-- Antenne 868 MHz : design + simu â†’ `/hardware/antenna/`  
-  - Fichiers OpenEMS/Qucs + rÃ©sultats S11 (CSV/PNG)
-  - Note de conception (paramÃ¨tres, hypothÃ¨ses, limites)
+- Antenne 868 MHz : design + simu → `/hardware/antenna/`  
+  - Fichiers OpenEMS/Qucs + résultats S11 (CSV/PNG)
+  - Note de conception (paramètres, hypothèses, limites)
 
 ---
 
-## 6) RÃ¨gles Firmware (ESP32)
+## 6) Règles Firmware (ESP32)
 
-- Arborescence : `/firmware/esp32/` (ESP-IDF conseillÃ©).  
+- Arborescence : `/firmware/esp32/` (ESP-IDF conseillé).  
 - Style : **clang-format** (ou `idf.py clang-format` si dispo).  
 - Logs : UART 115200, **pas de secrets** dans le repo.  
 - **Avant PR** :
   - [ ] `idf.py build` **OK**
   - [ ] Lint/format **OK**
-  - [ ] Exemples mis Ã  jour si API change
-  - [ ] Scripts outils dans `/firmware/tools/` documentÃ©s (`--help`)
+  - [ ] Exemples mis à jour si API change
+  - [ ] Scripts outils dans `/firmware/tools/` documentés (`--help`)
 
 ---
 
-## 7) RÃ¨gles Tests & Mesures
+## 7) Règles Tests & Mesures
 
-- Scripts de mesure RF (SCPI/VNA) â†’ `/tests/rf/`  
-- ProcÃ©dures fonctionnelles â†’ `/tests/functional/`  
-- Rapports et CSV/plots â†’ `/tests/reports/`  
+- Scripts de mesure RF (SCPI/VNA) → `/tests/rf/`  
+- Procédures fonctionnelles → `/tests/functional/`  
+- Rapports et CSV/plots → `/tests/reports/`  
 - **Nommage** : `YYYY-MM-DD_<module>_<test>.{md,csv,png}`  
-- Joindre **mÃ©thode + setup** + **critÃ¨res de rÃ©ussite**.
+- Joindre **méthode + setup** + **critères de réussite**.
 
 ---
 
 ## 8) Documentation
 
 - Utiliser Markdown. Images dans `/docs/images/`.  
-- Datasheet/Quickstart/Tutoriels â†’ `/docs/`  
-- Plan de projet â†’ `/project/` (sections 01 â†’ 10).  
+- Datasheet/Quickstart/Tutoriels → `/docs/`  
+- Plan de projet → `/project/` (sections 01 → 10).  
 - **Journal de bord** : `/logs/journal/YYYY-MM-DD.md` (utiliser le template).
 
 ---
@@ -116,27 +116,27 @@ Utiliser le format :
 ## 9) CI/CD
 
 - Actions GitHub dans `/ci/workflows/` :  
-  - `drc_erc.yml` : vÃ©rifs KiCad headless  
+  - `drc_erc.yml` : vérifs KiCad headless  
   - `firmware_build.yml` : build + lint ESP-IDF  
   - `export_gerbers.yml` : artefacts fabrication  
-  - `tests.yml` : exÃ©cution scripts Python (si applicable)
+  - `tests.yml` : exécution scripts Python (si applicable)
 
 > Une PR doit passer **tous** les jobs pertinents.
 
 ---
 
-## 10) SÃ©curitÃ© & conformitÃ©
+## 10) Sécurité & conformité
 
 - Pas de secrets/credentials en clair (utiliser variables GitHub).  
-- Respect licences des libs/outils â†’ ajouter dans `AI_SOURCES.md` et README si pertinent.  
-- DonnÃ©es personnelles : anonymiser logs (GPS, Wi-Fi).
+- Respect licences des libs/outils → ajouter dans `AI_SOURCES.md` et README si pertinent.  
+- Données personnelles : anonymiser logs (GPS, Wi-Fi).
 
 ---
 
-## 11) Comment dÃ©marrer (dev local)
+## 11) Comment démarrer (dev local)
 
 ```bash
-# Cloner et crÃ©er la branche de feature
+# Cloner et créer la branche de feature
 git clone <repo-url>
 cd HF-Project
 git checkout -b feature/<slug> origin/dev
@@ -155,10 +155,9 @@ python measure_s11.py --help
 
 ---
 
-## 12) Code of Conduct (rÃ©sumÃ©)
+## 12) Code of Conduct (résumé)
 - Bienveillance, respect, feedback constructif.  
 - Les reviews portent sur le **code**, jamais sur les personnes.  
-- Signale tout comportement inappropriÃ© aux responsables du projet.
+- Signale tout comportement inapproprié aux responsables du projet.
 
 Merci ! 
-
