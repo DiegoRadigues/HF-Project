@@ -1,0 +1,8 @@
+﻿* text=auto eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.csv text eol=lf
+*.sch binary
+*.kicad_pcb binary
+*.step binary
+*.stp binary
