@@ -16,7 +16,7 @@ Proof of Concept (POC) industriel : conception d’une solution RF sur PCB inté
 
 ## Livrables officiels (évalués)
 
-Les phases du projet suivent la grille imposée par l’enseignant, chaque livrable est noté.
+Les phases du projet suivent la grille imposée, chaque livrable est noté.
 
 1. **PCB embarqué (Phase 1)**
    - Carte ESP32 + GPS + LoRa + PMIC + USB-C  
@@ -127,4 +127,3 @@ Workflows dans [`/ci/workflows/`](ci/workflows/) :
 
 ---
 
-Équipe **HF-Project** — projet académique RF/embedded 2025.
