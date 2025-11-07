@@ -8,10 +8,14 @@
 -   Le module LoRa (RFM95W) possède des pistes assez longues avant d'atteindre la zone d'antenne.
 -   Risque : lignes de transmission non contrôlées pertes, réflexions, rayonnements.
 -   Virages à angles droits sur la piste RF → discontinuités d'impédance.
+-   Via inductance : ~ 0,6–1 nH par via typique 1,6 mm  à 868 MHz, non négligeable vs 50 Ω → dé-accord possible et Q abaissé (et donc rendement). [IPC-1999 – Design Guide for High-Speed Controlled Impedance Circuit Boards](https://www.polarinstruments.com/support/cits/IPC1999.pdf)
+
 
 ### 1.2. Absence de plan de masse continu autour du MCU
 
 -   Risque : augmentation du bruit EMI et perturbations.
+-   Le SAM-M8Q est placé environ au milieu-gauche. La doc u-blox recommande une grande masse homogène (≈ 50×50 mm) sous la patch, sans ruptures, avec un keep-out métallique autour. [Datasheet SAM-M8Q](../../docs/datasheet/SAM-M8Q.pdf)
+
 
 ### 1.3. Routage USB non différentiel
 
@@ -40,7 +44,7 @@
 
 ### 2.2. Séparation fonctionnelle correcte
 
--   Zones RF, MCU, alimentation, SWD structurées.
+-   Zones RF, MCU, alimentation structurées.
 
 ### 2.3. Alimentation compacte
 
