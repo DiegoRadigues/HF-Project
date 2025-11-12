@@ -1,4 +1,6 @@
 # Rapport de laboratoire : Analyseur de spectre (1)  
+**Arthur DUFOUR — Ange SIMPALINGABO — Diego de RADIGUES**
+
 ## Résultats et discussion  
 
 ![sinus1mHz900_1100MHz](https://github.com/user-attachments/assets/687cb7bc-5231-462e-a660-4f056b1b302d)
