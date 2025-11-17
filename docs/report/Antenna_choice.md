@@ -1,7 +1,7 @@
 # Antenna choice :
 
 ## 1. Intro
-Comment adapter une simulation eMerge de patch antenna initialement prévu pour une fréquence autour de 1.575 GHz vers une antenne patch optimisée pour LoRa à **868 MHz**.  
+Comment adapter une simulation eMerge de patch antenna initialement prévu pour une fréquence autour de 1.575 GHz vers une antenne patch optimisée pour LoRa à 868 MHz.  
 Nous discuterons ici des choix de dimensions, de matériaux, de conditions de simulation et de stratégie de maillage nécessaires pour obtenir un fonctionnement correct sur cette bande.
 
 ---
@@ -9,6 +9,7 @@ Nous discuterons ici des choix de dimensions, de matériaux, de conditions de si
 ## 2. Principes généraux du patch rectangulaire
 La fréquence de résonance d’un patch rectangulaire est approximée par :
 
+<img width="224" height="59" alt="Capture d&#39;écran 2025-11-17 005331" src="https://github.com/user-attachments/assets/eaa8349f-51a6-4509-b0ce-e167bff002bd" />
 
 
 Pour passer de 1.575 GHz à 868 MHz, il faut multiplier la longueur du patch presque par 2(car la fréquence est presque divisée par 2).
@@ -17,13 +18,21 @@ Pour passer de 1.575 GHz à 868 MHz, il faut multiplier la longueur du patch
 
 ## 3. Adaptation des dimensions principales
 
-### 3.1 Nouveau dimensionnement du patch
+### 3.1 Nouveau dimensionnement
 En gardant un substrat de permittivité proche de 3.38 (type Rogers 4003C), une longueur approximative pour 868 MHz est :
+
+<img width="219" height="66" alt="Capture d&#39;écran 2025-11-17 005957" src="https://github.com/user-attachments/assets/ddcb6a3e-fbd6-4d4e-911e-4bc2340dff3b" />
+
+Soit 70 à 80 mm
 
 
 
 ### 3.2 Largeur du patch
 La largeur augmente pour favoriser un meilleur rendement :
+
+<img width="228" height="75" alt="Capture d&#39;écran 2025-11-17 010059" src="https://github.com/user-attachments/assets/7fced333-5067-4824-b756-88deee286e44" />
+
+soit 90-100mm
 
 
 ### 3.3 Substrat
@@ -45,6 +54,7 @@ Pour 868 MHz :
 
 On peut utiliser les formules de la ligne microstrip :
 
+<img width="239" height="50" alt="Capture d&#39;écran 2025-11-17 010225" src="https://github.com/user-attachments/assets/2af84a45-7bd5-4008-a2f1-2dafc8dc7f12" />
 
 
 Pour un substrat Rogers 4003C, 1.6 mm, largeur conductrice d'environ **3.5 à 4.5 mm** donne en général ~50 Ω.
@@ -58,7 +68,9 @@ Dans l’exemple : 1.55–1.60 GHz
 Pour LoRa : 840–900 MHz avec un maillage un peu large au début.
 
 ### 5.2 Taille de l’airbox
-La règle : au moins λ/4 de marge autour de l’antenne.  
+Au moins λ/4 de marge autour de l’antenne.  
+<img width="258" height="57" alt="Capture d&#39;écran 2025-11-17 010533" src="https://github.com/user-attachments/assets/59c75cc0-8477-4ad3-9ca3-19cddc43f227" />
+
 À 868 MHz, λ ≈ 34 cm → airbox ≈ 80–100 mm n’est plus suffisant.  
 Il faut utiliser une sphère 200–250 mm.
 
@@ -74,8 +86,6 @@ Les antennes patch à 868 MHz présentent :
 - un gain typique 5–7 dBi,
 - une polarisation linéaire.
 
-Le code de visualisation reste identique.
-
 ---
 
 ## 7. Résumé des nouveaux paramètres pour LoRa
@@ -88,6 +98,7 @@ Le code de visualisation reste identique.
 | Airbox | 100 mm | 200–250 mm |
 | Ligne d’alim | 3.2 mm | 3.5–4.5 mm |
 | Plage de fréquences | 1.55–1.6 GHz | 0.84–0.90 GHz |
+
 
 
 
