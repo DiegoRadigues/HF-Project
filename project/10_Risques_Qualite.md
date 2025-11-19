@@ -1,4 +1,4 @@
-# ⚠️ Gestion des risques & qualité
+#  Gestion des risques & qualité
 
 ---
 
@@ -20,34 +20,34 @@
 ## Gates qualité par phase
 
 - **Phase 1 (PCB)**  
-  - ✅ ERC/DRC pass.  
-  - ✅ Règles JLCPCB respectées.  
-  - ✅ BOM validée.
+  -  ERC/DRC pass.  
+  -  Règles JLCPCB respectées.  
+  -  BOM validée.
 
 - **Phase 2 (Firmware stub + choix antenne)**  
-  - ✅ Logs UART visibles.  
-  - ✅ Scan Wi-Fi OK.  
-  - ✅ Antenne choisie documentée.
+  -  Logs UART visibles.  
+  -  Scan Wi-Fi OK.  
+  -  Antenne choisie documentée.
 
 - **Phase 3 (Antenne design)**  
-  - ✅ Simulation OpenEMS documentée.  
-  - ✅ S11 < –10 dB simulé @ 868 MHz.
+  -  Simulation OpenEMS documentée.  
+  -  S11 < –10 dB simulé @ 868 MHz.
 
 - **Phase 4 (Protocoles/tests initiaux)**  
-  - ✅ Plan de test rédigé.  
-  - ✅ EMI/CEM simulation réalisée.  
-  - ✅ Firmware LoRa ping compilé.
+  -  Plan de test rédigé.  
+  -  EMI/CEM simulation réalisée.  
+  -  Firmware LoRa ping compilé.
 
 - **Phase 5 (Tests instrumentés)**  
-  - ✅ VNA calibré.  
-  - ✅ S11 mesuré < –10 dB.  
-  - ✅ Portée LoRa > 300 m.  
-  - ✅ GPS fix < 60 s.
+  -  VNA calibré.  
+  -  S11 mesuré < –10 dB.  
+  -  Portée LoRa > 300 m.  
+  -  GPS fix < 60 s.
 
 - **Phase 6 (Oral final)**  
-  - ✅ Rapport complet.  
-  - ✅ Présentation claire.  
-  - ✅ Démo POC fonctionnel.
+  -  Rapport complet.  
+  -  Présentation claire.  
+  -  Démo POC fonctionnel.
 
 ---
 
