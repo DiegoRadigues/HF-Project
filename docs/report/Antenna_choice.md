@@ -9,8 +9,9 @@ Nous discuterons ici des choix de dimensions, de matériaux, de conditions de si
 ## 2. Principes généraux du patch rectangulaire
 La fréquence de résonance d’un patch rectangulaire est approximée par :
 
+<p align="center">
 <img width="224" height="59" alt="Capture d&#39;écran 2025-11-17 005331" src="https://github.com/user-attachments/assets/eaa8349f-51a6-4509-b0ce-e167bff002bd" />
-
+</p>
 
 Pour passer de 1.575 GHz à 868 MHz, il faut multiplier la longueur du patch presque par 2(car la fréquence est presque divisée par 2).
 
@@ -21,7 +22,9 @@ Pour passer de 1.575 GHz à 868 MHz, il faut multiplier la longueur du patch
 ### 3.1 Nouveau dimensionnement
 Avec un substrat FR4 (εr ≈ 4,4, h = 1,6 mm), une longueur approximative pour 868 MHz est :
 
+<p align="center">
 <img width="219" height="66" alt="Capture d&#39;écran 2025-11-17 005957" src="https://github.com/user-attachments/assets/ddcb6a3e-fbd6-4d4e-911e-4bc2340dff3b" />
+</p>
 
 Soit 82.3 mm
 
@@ -30,7 +33,9 @@ Soit 82.3 mm
 ### 3.2 Largeur du patch
 La largeur augmente pour favoriser un meilleur rendement :
 
+<p align="center">
 <img width="228" height="75" alt="Capture d&#39;écran 2025-11-17 010059" src="https://github.com/user-attachments/assets/7fced333-5067-4824-b756-88deee286e44" />
+</p>
 
 soit 105 mm
 
@@ -53,7 +58,9 @@ Pour 868 MHz :
 
 On peut utiliser les formules de la ligne microstrip :
 
+<p align="center">
 <img width="239" height="50" alt="Capture d&#39;écran 2025-11-17 010225" src="https://github.com/user-attachments/assets/2af84a45-7bd5-4008-a2f1-2dafc8dc7f12" />
+</p>
 
 4.1 Ligne microstrip 50 Ω sur FR4
 
@@ -86,16 +93,18 @@ Pour trouver la résonance, on a d’abord utilisé un balayage large :
 
 ### 5.2 Taille de l’airbox
 Au moins λ/4 de marge autour de l’antenne.  
+<p align="center">
 <img width="258" height="57" alt="Capture d&#39;écran 2025-11-17 010533" src="https://github.com/user-attachments/assets/59c75cc0-8477-4ad3-9ca3-19cddc43f227" />
+</p>
 
 À 868 MHz, λ ≈ 34 cm → airbox ≈ 80–100 mm n’est plus suffisant.  
 Il faut utiliser une sphère 200–250 mm.
 
 ### 5.3 Maillage
 La résolution recommandée : 
-
+<p align="center">
 <img width="152" height="50" alt="Maillage" src="https://github.com/user-attachments/assets/7ea60054-0535-494b-a41c-c1f47c646938" />
-
+</p>
 
 ---
 
@@ -120,16 +129,30 @@ Les antennes patch à 868 MHz présentent :
 
 ## 8. Simulation
 
-<img width="1084" height="146" alt="Figure_6" src="https://github.com/user-attachments/assets/f5646545-fbe6-462f-9c0b-255707b5b266" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f5646545-fbe6-462f-9c0b-255707b5b266" width="640"/>
+  <img src="https://github.com/user-attachments/assets/f5828ba5-052e-495d-95e6-3e8f068b55b9" width="640"/>
+</p>
 
-<img width="1950" height="1108" alt="Figure_7" src="https://github.com/user-attachments/assets/f5828ba5-052e-495d-95e6-3e8f068b55b9" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/270f53bf-654f-4ea9-86f4-29c51f279c9c" width="640"/>
+</p>
 
-<img width="640" height="480" alt="Figure_1" src="https://github.com/user-attachments/assets/270f53bf-654f-4ea9-86f4-29c51f279c9c" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e5f228a4-39fd-4f31-96f8-6bff9f1bcdf6" width="640"/>
+</p>
 
-<img width="600" height="600" alt="Figure_2" src="https://github.com/user-attachments/assets/e5f228a4-39fd-4f31-96f8-6bff9f1bcdf6" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9de70e0a-f6ec-42ef-aafc-c298c1ed9c02" width="640"/>
+</p>
 
-<img width="640" height="480" alt="Figure_3" src="https://github.com/user-attachments/assets/9de70e0a-f6ec-42ef-aafc-c298c1ed9c02" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5fd7e9d2-239e-4c88-b4f3-8aa2db34749e" width="640"/>
+</p>
 
-<img width="640" height="480" alt="Figure_4" src="https://github.com/user-attachments/assets/5fd7e9d2-239e-4c88-b4f3-8aa2db34749e" />
+<p align="center">
+<img width="640" height="480" alt="Figure_5" src="https://github.com/user-attachments/assets/f9e7ddaa-c366-4104-8e0d-e949186fc581" />
+</p>
+
 
 
