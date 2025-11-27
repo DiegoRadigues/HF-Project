@@ -2,164 +2,166 @@ import emerge as em
 import numpy as np
 from emerge.plot import plot_sp, smith, plot_ff_polar, plot_ff
 
-""" PATCH ANTENNA DEMO – version LoRa 868 MHz - version 1 à valider en séance
+""" PATCH ANTENNA DEMO – version LoRa 868 MHz - FR4
 
 Adaptation du modèle patch 1.575 GHz vers ~868 MHz.
-Dimensions basées sur un substrat type Rogers 4003C (εr ≈ 3.38),
-et un patch rectangulaire pour LoRa EU 868 MHz.
-
+Substrat FR4 (εr ≈ 4.4), patch rectangulaire LoRa EU 868 MHz.
 """
 
 # --- Unit and simulation parameters --------------------------------------
 mm = 0.001              # meters per millimeter
 
 # --- Antenna geometry dimensions ----------------------------------------
-# Patch dimensions pour ~868 MHz
-Wpatch = 95 * mm        # patch width (≈ 90–100 mm)
-Lpatch = 75 * mm        # patch length (≈ 70–80 mm)
+# Patch dimensions pour viser ~868 MHz
+Wpatch = 105 * mm       # patch width
+Lpatch = 82.3 * mm      # patch length
 
-# Microstrip feed line pour ~50 Ω sur h ≈ 1.6 mm, εr ≈ 3.3–3.8
-wline = 4.0 * mm        # feed line width (~3.5–4.5 mm)
+# Microstrip feed line pour ~50 Ω sur h ≈ 1.6 mm
+wline = 3.1 * mm        # feed line width (~50 Ω sur FR4 1.6 mm)
 
-# Inset feed : on garde le même ratio que le design 1.575 GHz (~0.3 * Lpatch)
+# Inset feed : profondeur ~0.3 * Lpatch
 wstub = 9 * mm          # stub width (un peu plus large que la ligne)
-lstub = 0.3 * 75 * mm   # stub (feed) length ≈ 22.5 mm
+lstub = 0.3 * Lpatch    # stub (feed) length
 
-# Substrat plus grand pour 868 MHz
-wsub = 180 * mm         # substrate width  (150–200 mm)
-hsub = 180 * mm         # substrate length (150–200 mm)
-th  = 1.6 * mm          # substrate thickness (~1.6 mm)
+# Substrat
+wsub = 180 * mm         # substrate width
+hsub = 180 * mm         # substrate length
+th  = 1.6 * mm          # substrate thickness
 
-# Airbox : rayon au moins λ/4 autour de l’antenne
-# λ ≈ 0.345 m → Rair 200–250 mm
+# Airbox : rayon au moins λ/4 autour de l’antenne (λ ≈ 0.345 m à 868 MHz)
 Rair = 220 * mm         # air sphere radius
 
-# Plage de fréquences adaptée à LoRa 868 MHz
-f1 = 0.84e9             # start frequency (840 MHz)
-f2 = 0.90e9             # stop frequency  (900 MHz)
+# Plage de fréquences : recentrée autour de 863–870 MHz
+f1 = 0.84e9             # 840 MHz
+f2 = 0.90e9             # 900 MHz
 
 # --- Create simulation object -------------------------------------------
 model = em.Simulation('PatchAntenna_868MHz')
-
-model.check_version("1.2.2") # Checks version compatibility.
+model.check_version("1.2.2")  # Checks version compatibility.
 
 # --- Define geometry primitives -----------------------------------------
-# Substrate block centered at origin in XY, thickness in Z (negative down)
-dielectric = em.geo.Box(wsub, hsub, th,
-                        position=(-wsub/2, -hsub/2, -th))
-
-# Air box above substrate (Z positive)
-air = em.geo.Sphere(Rair).background() 
-# Background makes sure no materials of overlapping domains are overwritten
-
-# Metal patch rectangle on top of substrate
-rpatch = em.geo.XYPlate(Wpatch, Lpatch,
-                        position=(-Wpatch/2, -Lpatch/2, 0))
-
-ground = em.geo.XYPlate(wsub, hsub,
-                        position=(-wsub/2, -hsub/2, -th)).set_material(em.lib.PEC)
-
-# Define cutouts for inset feed: two rectangular plates to subtract
-cutout1 = em.geo.XYPlate(wstub, lstub,
-                         position=(-wline/2 - wstub, -Lpatch/2, 0))
-cutout2 = em.geo.XYPlate(wstub, lstub,
-                         position=( wline/2, -Lpatch/2, 0))
-
-# Feed line plate to add back between cutouts
-line = em.geo.XYPlate(wline, lstub,
-                      position=(-wline/2, -Lpatch/2, 0))
-
-# Plate defining lumped port geometry (origin + width/height vectors)
-port = em.geo.Plate(
-    np.array([-wline/2, -Lpatch/2, -th]),  # lower port corner
-    np.array([wline, 0, 0]),               # width vector along X
-    np.array([0, 0, th])                   # height vector along Z
+dielectric = em.geo.Box(
+    wsub, hsub, th,
+    position=(-wsub/2, -hsub/2, -th)
 )
 
-# Build final patch shape: subtract cutouts, add feed line
+air = em.geo.Sphere(Rair).background()
+
+rpatch = em.geo.XYPlate(
+    Wpatch, Lpatch,
+    position=(-Wpatch/2, -Lpatch/2, 0)
+)
+
+ground = em.geo.XYPlate(
+    wsub, hsub,
+    position=(-wsub/2, -hsub/2, -th)
+).set_material(em.lib.PEC)
+
+# --- FEED INSET correctement aligné -------------------------------------
+line_x0 = -wline/2
+line_y0 = -Lpatch/2
+
+cutout1 = em.geo.XYPlate(
+    wstub, lstub,
+    position=(line_x0 - wstub, line_y0, 0)
+)
+cutout2 = em.geo.XYPlate(
+    wstub, lstub,
+    position=(line_x0 + wline, line_y0, 0)
+)
+
+line = em.geo.XYPlate(
+    wline, lstub,
+    position=(line_x0, line_y0, 0)
+)
+
+# Patch final : encoche + ligne
 rpatch = em.geo.remove(rpatch, cutout1)
 rpatch = em.geo.remove(rpatch, cutout2)
 rpatch = em.geo.add(rpatch, line)
 rpatch.set_material(em.lib.PEC)
 
-# --- Assign materials and simulation settings ---------------------------
-# Dielectric material (Rogers 4003C-like)
-dielectric.material = em.Material(3.38, color="#207020", opacity=0.9)
+# Port : de la masse au patch, centré sur la ligne
+port = em.geo.Plate(
+    np.array([line_x0, line_y0, -th]),  # lower port corner (ground)
+    np.array([wline, 0, 0]),            # width along X
+    np.array([0, 0, th])                # height along Z up to patch
+)
 
-# Mesh resolution: un peu moins dense que pour 1.6 GHz
-# (on relâche de 0.2 à 0.25)
+# --- Assign materials and simulation settings ---------------------------
+dielectric.material = em.Material(4.4, color="#207020", opacity=0.9)
+
+# Mesh resolution
 model.mw.set_resolution(0.25)
 
-# Frequency sweep across LoRa band
-model.mw.set_frequency_range(f1, f2, 3)
+# Frequency sweep recentré (assez fin pour voir le creux)
+model.mw.set_frequency_range(f1, f2, 61)
 
 # --- Combine geometry into simulation -----------------------------------
 model.commit_geometry()
 
 # --- Mesh refinement settings -------------------------------------------
-# Finer boundary mesh on patch edges for accuracy
 model.mesher.set_boundary_size(rpatch, 3 * mm)
-# Refined mesh on port face for excitation accuracy
 model.mesher.set_face_size(port, 0.5 * mm)
 
 # --- Generate mesh and preview ------------------------------------------
-model.generate_mesh()                             # build the finite-element mesh
-model.view(selections=[port], plot_mesh=True)     # show the mesh around the port
+model.generate_mesh()
+model.view(selections=[port], plot_mesh=True)
 
-# --- Boundary conditions ------------------------------------------------
-# Define lumped port with specified orientation and impedance
+# --- Boundary conditions -------------------------------------------------
 port_bc = model.mw.bc.LumpedPort(
     port, 1,
     width=wline, height=th,
     direction=em.ZAX, Z0=50
 )
 
-# Predefining selection
-# The outside of the air box for the absorbing boundary
 boundary_selection = air.boundary()
-# The patch and ground surface for PEC
 pec_selection = em.select(rpatch, ground)
 
-# Assigning the boundary conditions
 abc = model.mw.bc.AbsorbingBoundary(boundary_selection)
 
 # --- Run frequency-domain solver ----------------------------------------
 model.view(plot_mesh=True, volume_mesh=False)
-
 data = model.mw.run_sweep()
 
 # --- Post-process S-parameters ------------------------------------------
 freqs = data.scalar.grid.freq
-freq_dense = np.linspace(f1, f2, 1001)
-S11 = data.scalar.grid.model_S(1, 1, freq_dense)   # reflection coefficient
+S11 = data.scalar.grid.model_S(1, 1, freqs)
 
-plot_sp(freq_dense, S11)                           # plot return loss in dB
-smith(S11, f=freq_dense, labels='S11')             # Smith chart of S11
+plot_sp(freqs, S11)
+smith(S11, f=freqs, labels='S11')
 
-# --- Far-field radiation pattern ----------------------------------------
-# Extract 2D cuts at phi=0 planes and plot E-field magnitude
-ff1 = data.field.find(freq=0.868e9)\
+S11_dB = 20 * np.log10(np.abs(S11))
+idx_min = np.argmin(S11_dB)
+f_res = freqs[idx_min]
+print("Fréquence de résonance estimée : %.2f MHz" % (f_res/1e6))
+print("S11_min = %.1f dB" % S11_dB[idx_min])
+
+# --- Far-field radiation pattern à 868 MHz ------------------------------
+ff1 = data.field.find(freq=0.868e9) \
     .farfield_2d((0, 0, 1), (1, 0, 0), boundary_selection)
-ff2 = data.field.find(freq=0.868e9)\
+ff2 = data.field.find(freq=0.868e9) \
     .farfield_2d((0, 0, 1), (0, 1, 0), boundary_selection)
 
-plot_ff(ff1.ang*180/np.pi,
-        [ff1.normE/em.lib.EISO, ff2.normE/em.lib.EISO],
-        dB=True, ylabel='Gain [dBi]')                # linear plot vs theta
+plot_ff(
+    ff1.ang * 180 / np.pi,
+    [ff1.normE / em.lib.EISO, ff2.normE / em.lib.EISO],
+    dB=True, ylabel='Gain [dBi]'
+)
 
-plot_ff_polar(ff1.ang,
-              [ff1.normE/em.lib.EISO, ff2.normE/em.lib.EISO],
-              dB=True, dBfloor=-20)                  # polar plot of radiation
+plot_ff_polar(
+    ff1.ang,
+    [ff1.normE / em.lib.EISO, ff2.normE / em.lib.EISO],
+    dB=True, dBfloor=-20
+)
 
 # --- 3D radiation visualization -----------------------------------------
-# Add geometry to 3D display
 model.display.add_object(rpatch)
 model.display.add_object(dielectric)
 
-# Compute full 3D far-field and display surface colored by |E|
 field = data.field.find(freq=0.868e9)
 ff3d = field.farfield_3d(boundary_selection)
-surf = ff3d.surfplot('normE', rmax=120 * mm,   
+surf = ff3d.surfplot('normE', rmax=120 * mm,
                      offset=(0, 0, 40 * mm))
 
 model.display.add_surf(*surf)
