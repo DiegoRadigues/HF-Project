@@ -1,7 +1,7 @@
 # Antenna choice :
 
 ## 1. Intro
-Comment adapter une simulation eMerge de patch antenna initialement prévu pour une fréquence autour de 1.575 GHz vers une antenne patch optimisée pour LoRa à 868 MHz.  
+Adaptation simulation eMerge de patch antenna vers une antenne patch optimisée pour LoRa à 868 MHz.  
 Nous discuterons ici des choix de dimensions, de matériaux, de conditions de simulation et de stratégie de maillage nécessaires pour obtenir un fonctionnement correct sur cette bande.
 
 ---
@@ -131,4 +131,5 @@ Les antennes patch à 868 MHz présentent :
 <img width="640" height="480" alt="Figure_3" src="https://github.com/user-attachments/assets/9de70e0a-f6ec-42ef-aafc-c298c1ed9c02" />
 
 <img width="640" height="480" alt="Figure_4" src="https://github.com/user-attachments/assets/5fd7e9d2-239e-4c88-b4f3-8aa2db34749e" />
+
 
