@@ -23,7 +23,7 @@ Avec un substrat FR4 (εr ≈ 4,4, h = 1,6 mm), une longueur approximative pour 
 
 <img width="219" height="66" alt="Capture d&#39;écran 2025-11-17 005957" src="https://github.com/user-attachments/assets/ddcb6a3e-fbd6-4d4e-911e-4bc2340dff3b" />
 
-Soit 82.5 mm
+Soit 82.3 mm
 
 
 
@@ -131,3 +131,4 @@ Les antennes patch à 868 MHz présentent :
 <img width="640" height="480" alt="Figure_3" src="https://github.com/user-attachments/assets/9de70e0a-f6ec-42ef-aafc-c298c1ed9c02" />
 
 <img width="640" height="480" alt="Figure_4" src="https://github.com/user-attachments/assets/5fd7e9d2-239e-4c88-b4f3-8aa2db34749e" />
+
