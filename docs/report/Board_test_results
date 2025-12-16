@@ -1,6 +1,6 @@
 | Function / Block          | Test description (procedure)                                      | Results                                     |
 |---------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------|
-| Power supply (battery / USB-C) | Alimenter le PCB en USB-C puis via batterie. Mesurer les tensions principales (3.3 V, etc.). | En USB-C, une tension de 0.9 V apparaît en sortie du BQ (sys) ; Sur batterie, le circuit est alimenté partout en 3.6 V |
+| Power supply (battery / USB-C) | Alimenter le PCB en USB-C puis via batterie. Mesurer les tensions principales (3.3 V, etc.). | En USB-C, une tension de 0.9 V apparaît en sortie du BQ (sys) , Sur batterie, le circuit est alimenté partout en 3.6 V |
 | ESP32 core power          | Vérifier V_alim de l'ESP32                                         | alimenté correctement?                                          |
 | GPS module power          | Mesurer la tension VCC/GND du GPS.                                 | alimenté correctement, consommation ok.                         |
 | LoRa module power         | Mesurer la tension VCC/GND du RFM95.                               | correctement alimenté, pas de surconsommation.                  |
