@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tracking GPS ESP32 + Leaflet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Position GPS </h1>
+    <div id="info">
+      <span id="srv-status">Serveur : en attente...</span>
+      <span id="dev-status">Appareil : inconnu</span>
+      <span id="coords">Lat: ---, Lng: ---</span>
+      <span id="last-time">Dernière position : ---</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="left-panel">
+      <div class="card">
+        <h2>Réseau</h2>
+        <p><strong>SSID :</strong> <span id="wifi-ssid">---</span></p>
+        <p><strong>IP appareil :</strong> <span id="wifi-ip">---</span></p>
+        <p><strong>RSSI :</strong> <span id="wifi-rssi">---</span></p>
+        <p><strong>Wi-Fi connecté :</strong> <span id="wifi-connected">---</span></p>
+      </div>
+
+      <div class="card">
+        <h2>GPS</h2>
+        <p><strong>GPS valide :</strong> <span id="gps-valid">---</span></p>
+        <p><strong>Utilise position par défaut :</strong> <span id="gps-default">---</span></p>
+        <p><strong>Dernier fix (ms appareil) :</strong> <span id="gps-lastfix">---</span></p>
+        <p><strong>Temps interne appareil (ms) :</strong> <span id="dev-time">---</span></p>
+      </div>
+    </section>
+
+    <section id="map-container">
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <!-- Socket.IO client -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>

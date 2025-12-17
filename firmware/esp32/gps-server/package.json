@@ -1,0 +1,13 @@
+{
+  "name": "gps-leaflet-server",
+  "version": "1.0.0",
+  "description": "Serveur Node.js pour afficher la position GPS d'un ESP32 sur une carte Leaflet",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "socket.io": "^4.8.0"
+  }
+}
