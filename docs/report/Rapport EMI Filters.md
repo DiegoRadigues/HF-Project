@@ -855,6 +855,195 @@ $$
 
 ---
 
+# Notes vidéo
+
+## 1. Introduction : EMI/EMS/EMC et modèle source–chemin–victime
+<img width="526" height="306" alt="image" src="https://github.com/user-attachments/assets/f13c554b-eb56-42da-ad18-a2fd8b19b44c" />
+<img width="536" height="254" alt="Capture d&#39;écran 2025-12-17 154307" src="https://github.com/user-attachments/assets/37889208-24d0-4990-8d88-4df596f5cc0f" />
+
+### 1.1 Le modèle fondamental (la “chaîne CEM”)
+La compatibilité électromagnétique se formule comme un système à trois blocs :
+*   **Source :** convertisseur, nœud de commutation, diodes, boucles à fort $dV/dt$ et $dI/dt$.
+*   **Chemin de couplage :** conduction par câbles/impédances communes, ou rayonnement (champ proche/lointain).
+*   **Victime :** autre équipement ou le récepteur de mesure (EMI receiver).
+
+**Idée directrice :** on agit soit sur la source (réduire l’excitation), soit sur le chemin (filtrage, routage, blindage), soit sur la victime (durcir l’immunité).
+
+### 1.2 Conduites vs rayonnées : pourquoi on filtre d’abord le conduit
+En pratique, les courants HF injectés dans les câbles rendent le rayonnement très efficace. Une stratégie classique est donc :
+1.  Passer le conduit (CE).
+2.  Ensuite traiter le rayonné (RE) via blindage/fermeture d’ouvertures, réduction des boucles et gestion des câbles.
+
+
+---
+
+## 2. Bruit DM et CM : définitions, origines, signatures
+
+<img width="616" height="314" alt="Capture d&#39;écran 2025-12-17 154611" src="https://github.com/user-attachments/assets/62e8c348-53e1-4237-aa97-f93bf91ed06a" />
+
+
+### 2.1 Décomposition des courants
+Sur une alimentation à deux conducteurs (aller/retour), on écrit :
+*   **Différentiel (DM) :** courant opposé dans les deux conducteurs (boucle locale).
+*   **Commun (CM) :** courant dans le même sens dans les deux conducteurs, retour par châssis/terre/capacités parasites.
+
+Cette séparation est indispensable car les composants de filtre n’agissent pas pareil :
+*   X-capacités et inductances série $\rightarrow$ surtout DM.
+*   Y-capacités + self CM $\rightarrow$ surtout CM.
+
+### 2.2 Origines physiques : pourquoi le CM “monte” en fréquence
+*   **DM :** lié au fonctionnement normal (ondulation de courant, harmonique de commutation).
+*   **CM :** souvent causé par les capacités parasites du nœud de commutation vers châssis, qui convertissent un $dV/dt$ en courant de déplacement.
+
+### 2.3 Signature spectrale (lecture d’un scan EMI)
+On observe fréquemment :
+*   Raies à $n \cdot f_{sw}$ $\rightarrow$ typiquement **DM dominant**.
+*   Enveloppe et contenu HF associés à la forme de commutation (temps de montée/descente) $\rightarrow$ typiquement **CM dominant**.
+
+---
+
+## 3. LISN et essais d’émissions conduites : rôle, limites, séparation CM/DM
+
+<img width="760" height="590" alt="Capture d&#39;écran 2025-12-17 154738" src="https://github.com/user-attachments/assets/9b9b5acd-f7e7-4789-8994-5922717909c2" />
+<img width="804" height="702" alt="Capture d&#39;écran 2025-12-17 154905" src="https://github.com/user-attachments/assets/7c85df31-4632-4b97-ab08-e6629e005464" />
+
+
+### 3.1 Pourquoi le LISN existe
+Le LISN (Line Impedance Stabilization Network) :
+*   Impose une impédance de mesure stable.
+*   Découple le DUT (Device Under Test) du bruit du réseau.
+*   Fournit un point de mesure vers le récepteur EMI.
+
+### 3.2 Limite cruciale : le LISN ne sépare pas CM et DM
+Mesurer au LISN donne un résultat “total” où CM et DM sont mélangés. Pour concevoir vite et bien, on cherche à séparer les contributions.
+
+### 3.3 Séparation CM/DM : DMRN / splitters / combiner
+Une méthode opérationnelle enseignée dans la vidéo :
+1.  Mesurer et traiter d’abord le CM.
+2.  Insérer le filtre CM, puis mesurer le DM résiduel.
+3.  Concevoir le filtre DM.
+
+Cette procédure évite d’empiler des composants “au hasard” et accélère la convergence.
+
+---
+
+## 4. Atténuation, Insertion Loss (IL) et matrices ABCD
+<img width="1048" height="620" alt="Capture d&#39;écran 2025-12-17 155018" src="https://github.com/user-attachments/assets/b162405a-2f12-47cc-8050-231429ff8fd4" />
+
+
+
+### 4.1 Atténuation : notion “filtre seul”
+L’atténuation issue d’une fonction de transfert idéale suppose des impédances limites ou figées. Elle est utile pour comprendre la pente (ordre), mais peut être trompeuse.
+
+### 4.2 Insertion Loss (IL) : notion “système” (source + filtre + charge)
+L’IL compare le niveau mesuré sans filtre puis avec filtre. Elle dépend fortement de $Z_S$ (source) et $Z_L$ (charge).
+*   *Note normative (CISPR 17) :* évaluer l’IL dans plusieurs conditions de terminaison (ex. 50/50, 0.1/100, 100/0.1).
+
+### 4.3 L’outil “ABCD” (réseau en cascade)
+Les matrices ABCD permettent :
+*   D’assembler les éléments (L série, C shunt…) en cascade.
+*   De calculer la réponse en tenant compte de $Z_S$ et $Z_L$.
+*   De relier la théorie à des scénarios de mesure.
+
+### 4.4 Message central : “Attenuation is NOT Insertion Loss!”
+*   **Atténuation :** simplifiée, parfois optimiste.
+*   **IL :** plus proche des essais mais ne garantit pas à elle seule la stabilité (car la charge réelle peut avoir une entrée négative).
+
+---
+
+## 5. Le filtre EMI comme “élément de désadaptation” (mismatch)
+
+### 5.1 Différence avec un filtre analogique classique
+*   En filtrage analogique (RF/audio), on cherche souvent l’adaptation.
+*   En EMI, la philosophie est différente : on veut **empêcher** la circulation des courants de bruit et souvent maximiser la désadaptation pour réduire le transfert de perturbations.
+
+### 5.2 Choix de topologie guidé par les impédances
+Règle pratique (intuitive) :
+*   Si la source est “basse impédance” $\rightarrow$ une **inductance série** est efficace.
+*   Si la source est “haute impédance” $\rightarrow$ une **capacité shunt** devient très efficace.
+*   D’où l’intérêt des topologies $\pi$ / T et multi-étages pour créer des “ruptures” d’impédance.
+
+---
+
+## 6. L’impédance de sortie $Z_{out}$ : la vraie grandeur de conception (stabilité)
+
+### 6.1 Pourquoi $Z_{out}$ est un objectif de design
+Un convertisseur régulé peut présenter une impédance d’entrée incrémentale négative sur une certaine bande. Un filtre LC non amorti peut créer une résonance et provoquer :
+*   Oscillation.
+*   Surtension transitoire.
+*   Bruit aggravé à certaines fréquences.
+
+**Le design sérieux vise :**
+*   $Z_{out,filtre}$ faible dans la bande critique.
+*   Une résonance du filtre placée et amortie.
+*   Un facteur $Q$ faible (ex. $Q < 2$).
+
+### 6.2 Conditions qualitatives de stabilité (guidelines)
+*   $Z_{out}$ du filtre doit être bien inférieur à l’impédance d’entrée effective du convertisseur dans la bande où l’interaction est possible.
+*   La fréquence de résonance du filtre EMI doit rester sous contrôle (positionnement hors zone sensible).
+*   L’amortissement doit supprimer le peaking.
+
+---
+
+## 7. Amortissement (damping) : supprimer le peaking sans détruire la performance EMI
+
+### 7.1 Pourquoi un filtre “trop bon” peut être mauvais
+Un filtre LC idéal donne une pente forte… mais aussi un pic de résonance si les pertes sont faibles (grand $Q$). Ce pic peut :
+*   Amplifier certaines composantes.
+*   Dégrader IL localement.
+*   Déclencher une instabilité.
+
+### 7.2 Configurations d’amortissement typiques
+La vidéo met en avant une configuration très courante :
+*   2 étages, avec amortissement par ESR du bulk capacitor (ou résistance dédiée en série/shunt suivant architecture).
+
+**Compromis à enseigner :**
+*   Plus de damping $\rightarrow$ stabilité $\uparrow$ mais atténuation HF peut $\downarrow$ si on exagère.
+*   Objectif : réduire le pic sans “court-circuiter” l’effet filtrant.
+
+### 7.3 Vérification par $Z_{out}(f)$
+Un bon réflexe de cours/labo : tracer $Z_{out}(f)$ avec et sans damping et vérifier :
+*   Hauteur du pic.
+*   Fréquence du pic.
+*   Marge vis-à-vis de la charge (convertisseur).
+
+---
+
+## 8. Parasites, SRF et validité bande-large
+
+### 8.1 Parasites incontournables
+*   **Inductances :** résistance série, capacité inter-spires $\rightarrow$ auto-résonance.
+*   **Condensateurs :** ESR, ESL $\rightarrow$ auto-résonance + résonances parasites en réseau.
+*   **PCB :** inductances de pistes, boucles, couplages mutuels.
+
+### 8.2 Stratégie de modélisation
+Le cours distingue 3 niveaux :
+1.  Modèle **lumped simple** (ESR/ESL) pour l'intuition.
+2.  **SUBCKT constructeur** si disponible.
+3.  **S-parameters** (ou mesures VNA/Bode) pour bande large quand on vise des MHz–dizaines de MHz.
+
+### 8.3 Exemple pédagogique
+Montrer qu’une simulation “idéale” peut prédire 50 dB d’atténuation… alors que l’IL mesurée est bien moindre à cause des désadaptations, SRF, et chemins parasites.
+
+---
+
+## 9. Caractérisation d’une self de mode commun (CM choke)
+
+### 9.1 Deux grandeurs à obtenir
+*   Inductance mode commun $L_{CM}$.
+*   Inductance de fuite $L_{leak}$ (agit sur DM).
+
+### 9.2 Méthodes de mesure (principe)
+*   Instrument type “Bode/impedance analyzer” + montage adapté.
+*   Mesures séparées selon le câblage (CM vs DM).
+*   *Attention :* la bande utile peut être limitée (ex. 50 MHz sur certains appareils), ce qui complique la caractérisation au-delà.
+
+### 9.3 Reactance chart et SRF
+Le reactance chart (log-log) permet une lecture intuitive des pentes idéales, mais il faut enseigner que :
+*   Autour du SRF (souvent ~MHz), le comportement change.
+*   Au-delà, un modèle plus complexe est requis (pertes, matériau, résonances).
+
+
 ## 4. SYNTHÈSE ET CONCLUSION
 
 ### 4.1 Points clés de la conception de filtres EMI
