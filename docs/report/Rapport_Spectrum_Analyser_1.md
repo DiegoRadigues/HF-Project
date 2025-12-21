@@ -1,4 +1,4 @@
-# Rapport de laboratoire : Analyseur de spectre (1)  
+# Rapport de laboratoire : Analyseur de spectre 
 **Arthur DUFOUR — Ange SIMPALINGABO — Diego de RADIGUES**
 
 ## Résultats et discussion  
@@ -41,6 +41,26 @@ Avec l’antenne connectée et la bande réglée sur **2.3–2.5 GHz** on observ
 La courbe présente une **largeur de bande d’environ 20 à 25 MHz** ok pour un canal Wi-Fi (modulation OFDM).  
 Le signal fluctue en amplitude mais avec **Max Hold** on peut capturer les pics.
 Ce résultat confirme la détection d’un signal wifi. en éteignant le hospot le pic perd en amplitude ce qui suggère que d'autres signaux à 2.4 GHz sont captés (Wifi, bluetooth, appareils domotiques, souris/claviers etc.)
+
+![x](https://github.com/user-attachments/assets/bd1edc4b-c7bd-4e0b-a22f-646343fd815e)
+Image 5 :
+Le marqueur indique un pic à 93,230 MHz avec une puissance d’environ –53,09 dBm.
+Cette fréquence correspond très bien à 93,2 MHz = Classic 21 (Bruxelles) dans votre liste.
+On observe autour de cette porteuse une “bosse” assez large : c’est normal car une station FM occupe typiquement ~200 kHz (ordre de grandeur), et l’affichage est aussi influencé par la RBW = 300 kHz, qui a tendance à élargir visuellement les signaux.
+
+![z](https://github.com/user-attachments/assets/78813990-de6c-4f52-8739-59dd2147b1fc)
+Le marqueur indique un pic à 107,195 MHz pour environ –47,68 dBm (ici plus fort que celui de 93,23 MHz).
+Dans votre liste, la fréquence 107,2 MHz correspond à Radio Vibration et aussi Radio Extra (même fréquence annoncée). Avec uniquement le spectre, on ne peut pas trancher laquelle des deux est effectivement reçue : on peut seulement dire que le pic est compatible avec une station autour de 107,2 MHz.
+La petite différence entre 107,195 et 107,2 MHz est attendue (lecture au marqueur, résolution fréquentielle, RBW, etc.).
+
+Discussion :
+
+Les stations n’ont pas la même amplitude : cela dépend de la puissance d’émission, de la distance, des obstacles (bâtiments), et de l’orientation/position de l’antenne.
+
+Le Max Hold met bien en évidence les stations présentes même si leur niveau varie dans le temps.
+
+Avec un RBW de 300 kHz, on ne voit pas des détails fins ; pour “mieux dessiner” chaque station, on pourrait réduire le span autour d’une station et diminuer la RBW (ex. dizaines de kHz).
+
 
 ---
 
